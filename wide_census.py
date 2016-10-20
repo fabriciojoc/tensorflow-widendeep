@@ -115,13 +115,16 @@ education_x_occupation = tf.contrib.layers.crossed_column([education, occupation
 native_country_x_occupation = tf.contrib.layers.crossed_column([native_country, occupation], hash_bucket_size=int(1e4))
 age_buckets_x_race_x_occupation = tf.contrib.layers.crossed_column(
   [age_buckets, race, occupation], hash_bucket_size=int(1e6))
+age_buckets_x_education_x_occupation = tf.contrib.layers.crossed_column(
+    [age_buckets, education, occupation], hash_bucket_size=int(1e6))
 
 ##
 ## 4 - WIDE COLUMNS
 ##
 
-wide_columns = [
-  gender, native_country, education, occupation, workclass, marital_status, relationship, age_buckets, education_x_occupation, native_country_x_occupation, age_buckets_x_race_x_occupation]
+wide_columns = [gender, native_country, education, occupation, workclass,
+                relationship, age_buckets, education_x_occupation,
+                age_buckets_x_education_x_occupation, native_country_x_occupation]
 
 ##
 ## 5 - DEEP COLUMNS
@@ -130,17 +133,8 @@ wide_columns = [
 # into a low-dimensional and dense real-valued vector, often referred to as an
 # embedding vector
 
-deep_columns = [
-  tf.contrib.layers.embedding_column(gender, dimension=8),
-  tf.contrib.layers.embedding_column(native_country, dimension=8),
-  tf.contrib.layers.embedding_column(education, dimension=8),
-  tf.contrib.layers.embedding_column(occupation, dimension=8),
-  tf.contrib.layers.embedding_column(workclass, dimension=8),
-  tf.contrib.layers.embedding_column(marital_status, dimension=8),
-  tf.contrib.layers.embedding_column(relationship, dimension=8),
-  tf.contrib.layers.embedding_column(race, dimension=8),
-  age, education_num, capital_gain, capital_loss, hours_per_week]
 
+deep_columns = [ tf.contrib.layers.embedding_column(gender, dimension=8), tf.contrib.layers.embedding_column(native_country, dimension=8), tf.contrib.layers.embedding_column(education, dimension=8),     tf.contrib.layers.embedding_column(occupation, dimension=8), tf.contrib.layers.embedding_column(workclass, dimension=8), tf.contrib.layers.embedding_column(relationship, dimension=8), age, education_num, capital_gain, capital_loss, hours_per_week ]
 
 ##
 ## 6 - MODEL CREATION
